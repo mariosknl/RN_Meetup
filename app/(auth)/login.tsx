@@ -1,15 +1,6 @@
 import { Stack } from 'expo-router';
 import { useState } from 'react';
-import {
-  Text,
-  Alert,
-  StyleSheet,
-  View,
-  AppState,
-  TextInput,
-  Button,
-  Pressable,
-} from 'react-native';
+import { Text, Alert, StyleSheet, View, AppState, TextInput, Pressable } from 'react-native';
 
 import { supabase } from '~/utils/supabase';
 
