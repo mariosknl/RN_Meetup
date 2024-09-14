@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
+
 import { supabase } from '~/utils/supabase';
 
 const EventListItem = ({ event }) => {

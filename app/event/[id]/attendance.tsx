@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { FlatList, Text, View } from 'react-native';
+
 import { supabase } from '~/utils/supabase';
 
 export default function EventAttendance() {
