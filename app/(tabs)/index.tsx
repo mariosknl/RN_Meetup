@@ -3,17 +3,29 @@ import { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import EventListItem from '~/components/EventListItem';
+import { NearbyEvent } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 
 export default function Events() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<NearbyEvent[]>([]);
   useEffect(() => {
-    fetchEvents();
+    fetchNearbyEvents();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchAllEvents = async () => {
     const { data, error } = await supabase.from('events').select('*');
     setEvents(data);
+  };
+
+  const fetchNearbyEvents = async () => {
+    const { data, error } = await supabase.rpc('nearby_events', {
+      lat: -38.22773,
+      long: 21.74875,
+    });
+
+    if (data) {
+      setEvents(data);
+    }
   };
 
   return (

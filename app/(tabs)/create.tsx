@@ -2,8 +2,8 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import Avatar from '~/components/Avatar';
 
+import Avatar from '~/components/Avatar';
 import { useAuth } from '~/contexts/AuthProvider';
 import { supabase } from '~/utils/supabase';
 
@@ -25,7 +25,14 @@ export default function CreateEvent() {
     const { data, error } = await supabase
       .from('events')
       .insert([
-        { title, description, date: date.toISOString(), user_id: user.id, image_uri: imageUrl },
+        {
+          title,
+          description,
+          date: date.toISOString(),
+          user_id: user.id,
+          image_uri: imageUrl,
+          location_point: 'POINT(21.74879 -38.22775)',
+        },
       ])
       .select()
       .single();

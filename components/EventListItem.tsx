@@ -46,7 +46,9 @@ const EventListItem = ({ event }) => {
 
         {/* footer */}
         <View className="flex-row gap-3">
-          <Text className="mr-auto text-gray-700">{numberOfAttendees} going</Text>
+          <Text className="mr-auto text-gray-700">
+            {numberOfAttendees} going · {Math.floor(event.dist_meters / 1000)}km from you
+          </Text>
 
           <Feather name="share" size={20} color="gray" />
           <Feather name="bookmark" size={20} color="gray" />
