@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import AddressAutocomplete from '~/components/AddressAutocomplete';
 
 import Avatar from '~/components/Avatar';
 import { useAuth } from '~/contexts/AuthProvider';
@@ -14,6 +15,7 @@ export default function CreateEvent() {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
 
   const [loading, setLoading] = useState(false);
 
@@ -21,6 +23,9 @@ export default function CreateEvent() {
 
   const createEvent = async () => {
     setLoading(true);
+
+    const long = location.features[0].geometry.coordinates[1];
+    const lat = location.features[0].geometry.coordinates[0];
 
     const { data, error } = await supabase
       .from('events')
@@ -31,7 +36,8 @@ export default function CreateEvent() {
           date: date.toISOString(),
           user_id: user.id,
           image_uri: imageUrl,
-          location_point: 'POINT(21.74879 -38.22775)',
+          location: location.features[0].properties.name,
+          location_point: `POINT(${long} ${lat})`,
         },
       ])
       .select()
@@ -49,7 +55,7 @@ export default function CreateEvent() {
   };
 
   return (
-    <View className="flex-1 gap-5 bg-white p-5">
+    <ScrollView className="flex-1" contentContainerClassName="gap-5 bg-white p-5">
       <View className="items-center">
         <Avatar
           size={200}
@@ -93,12 +99,14 @@ export default function CreateEvent() {
         minuteInterval={15}
       />
 
+      <AddressAutocomplete onSelected={(location) => setLocation(location)} />
+
       <Pressable
         className="mt-auto items-center rounded-md bg-red-500 p-3 px-8"
         onPress={() => createEvent()}
         disabled={loading}>
         <Text className="text-lg font-bold text-white">Create event</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 }

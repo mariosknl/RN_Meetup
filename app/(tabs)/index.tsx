@@ -42,7 +42,7 @@ export default function Events() {
   };
 
   const fetchNearbyEvents = async () => {
-    if (!locaion) return;
+    if (!location) return;
 
     const { data, error } = await supabase.rpc('nearby_events', {
       lat: location.coords.latitude,
@@ -53,6 +53,8 @@ export default function Events() {
       setEvents(data);
     }
   };
+
+  console.log('events', events);
 
   return (
     <>
