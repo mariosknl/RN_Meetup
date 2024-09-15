@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 
 import { supabase } from '~/utils/supabase';
+import SupaImage from './SupaImage';
 
 const EventListItem = ({ event }) => {
   const [numberOfAttendees, setNumberOfAttendees] = useState(0);
@@ -38,7 +39,9 @@ const EventListItem = ({ event }) => {
           </View>
 
           {/* Event Image */}
-          <Image source={{ uri: event.image_uri }} className="aspect-video w-2/5 rounded-xl" />
+          {event.image_uri ? (
+            <SupaImage path={event.image_uri} className="aspect-video w-2/5 rounded-xl" />
+          ) : null}
         </View>
 
         {/* footer */}
