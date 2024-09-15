@@ -60,7 +60,7 @@ export default function EventPage() {
         options={{ title: 'Event', headerBackTitleVisible: false, headerTintColor: 'black' }}
       />
 
-      <SupaImage path={event.image_uri} className="aspect-video w-full rounded-xl" />
+      <SupaImage path={event.image_uri as string} className="aspect-video w-full rounded-xl" />
 
       <Text className="text-3xl font-bold" numberOfLines={2}>
         {event.title}

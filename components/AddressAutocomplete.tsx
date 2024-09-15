@@ -24,6 +24,7 @@ export default function AddressAutocomplete({ onSelected }) {
     setSuggestions([]);
 
     const details = await retrieveDetails(suggestion.mapbox_id, session.access_token);
+
     onSelected(details);
   };
 
