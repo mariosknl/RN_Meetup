@@ -2,15 +2,16 @@ import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Button, Pressable, TextInput, View, Text } from 'react-native';
 
+import Avatar from '~/components/Avatar';
 import { useAuth } from '~/contexts/AuthProvider';
 import { supabase } from '~/utils/supabase';
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState('');
-  const [website, setWebsite] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [website, setWebsite] = useState<string>('');
+  const [fullName, setFullName] = useState<string>('');
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
 
   const { session } = useAuth();
 
@@ -68,7 +69,7 @@ export default function Profile() {
         website,
         avatar_url,
         full_name,
-        updated_at: new Date(),
+        updated_at: new Date().toISOString(),
       };
 
       const { error } = await supabase.from('profiles').upsert(updates);
@@ -88,6 +89,17 @@ export default function Profile() {
   return (
     <View className="flex-1 gap-3 bg-white p-5">
       <Stack.Screen options={{ title: 'Profile' }} />
+
+      <View className="items-center">
+        <Avatar
+          size={200}
+          url={avatarUrl}
+          onUpload={(url: string) => {
+            setAvatarUrl(url);
+            updateProfile({ username, website, avatar_url: url, full_name: fullName });
+          }}
+        />
+      </View>
 
       <TextInput
         editable={false}
