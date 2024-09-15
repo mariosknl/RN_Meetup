@@ -2,14 +2,15 @@ import dayjs from 'dayjs';
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Text, View, Image, Pressable, ActivityIndicator } from 'react-native';
-import { useAuth } from '~/contexts/AuthProvider';
 
+import { useAuth } from '~/contexts/AuthProvider';
+import { Event, Attendance } from '~/types/db';
 import { supabase } from '~/utils/supabase';
 
 export default function EventPage() {
   const { id } = useLocalSearchParams();
-  const [event, setEvent] = useState(null);
-  const [attendance, setAttendance] = useState(null);
+  const [event, setEvent] = useState<Event | null>(null);
+  const [attendance, setAttendance] = useState<Attendance | null>(null);
   const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
@@ -37,7 +38,7 @@ export default function EventPage() {
   const joinEvent = async () => {
     const { data, error } = await supabase
       .from('attendance')
-      .insert({ user_id: user.id, event_id: event.id })
+      .insert({ user_id: user.id, event_id: event!.id })
       .select('*')
       .single();
 

@@ -22,7 +22,7 @@ export default function CreateEvent() {
 
     const { data, error } = await supabase
       .from('events')
-      .insert([{ title, description, date, user_id: user.id }])
+      .insert([{ title, description, date: date.toISOString(), user_id: user.id }])
       .select()
       .single();
 
